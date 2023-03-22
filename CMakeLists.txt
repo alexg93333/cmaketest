@@ -3,9 +3,11 @@ project(shared_memory_example)
 
 add_executable(shared_memory_example main.c)
 
-CHECK_LIBRARY_EXISTS(rt clock_gettime "time.h" NEED_LIBRT)
-message(NEED_LIBRT)
-IF(NEED_LIBRT)
-    TARGET_LINK_LIBRARIES(${target} rt)
+FIND_LIBRARY(RT_LIBRARY rt)
+IF(RT_LIBRARY)
+    TARGET_LINK_LIBRARIES(${target} ${RT_LIBRARY})
+    TARGET_LINK_LIBRARIES(shared_memory_example ${RT_LIBRARY})
+ENDIF(RT_LIBRARY)
+
     
 target_link_libraries(shared_memory_example rt)
